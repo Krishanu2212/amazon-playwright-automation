@@ -8,9 +8,7 @@ export class CartPage {
     }
 
     async verifyProductInCart(productDataAsin: string) {
-        await this.page
-            .locator('[id="nav-cart"]')
-            .click();
+        await this.page.locator('[id="nav-cart"]').click();
 
         await expect(this.page.locator(`[role="listitem"][data-asin="${productDataAsin}"]`)).toHaveAttribute('data-asin', productDataAsin);
         

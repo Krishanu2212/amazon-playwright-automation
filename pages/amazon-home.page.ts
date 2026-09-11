@@ -3,10 +3,10 @@ import { expect, Page } from '@playwright/test';
 export class AmazonHomePage {
   constructor(private page: Page) {}
 
-  async searchProduct(brand: string) {
+  async searchProduct(searchTerm: string) {
     await this.page.goto('https://www.amazon.in');
 
-    await this.page.getByRole('searchbox', { name: 'Search Amazon.in' }).fill(brand);
+    await this.page.getByRole('searchbox', { name: 'Search Amazon.in' }).fill(searchTerm);
 
     await this.page.getByRole('button', { name: 'Go', exact: true }).click();
 
