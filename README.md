@@ -1,12 +1,15 @@
 # Amazon Playwright Automation
 
 ## Overview
-This Project automates the process of searching for a TV of 55 inch on amazon, applying the brand filter, selecting the first product from the results, printing the specifications of that particular product, adding that product to the cart and verifying the cart has the product added.
+
+This project automates the process of searching for a 55-inch TV on Amazon, applying the brand filter, selecting the first product from the results, printing the specifications of that product, adding it to the cart, and verifying that the product was added successfully.
 
 ## Tech Stack
+
 Playwright, TypeScript, Node.js.
 
-## Test Scenerio
+## Test Scenario
+
 1. Open Amazon
 2. Search for "TV 55 inch"
 3. Apply Samsung brand filter
@@ -17,30 +20,50 @@ Playwright, TypeScript, Node.js.
 8. Verify product in cart using ASIN
 
 ## Project Structure
-pages/
-  amazon-home.page.ts
-  search-results.page.ts
-  product.page.ts
-  cart-page.page.ts
 
-test-data/
-  amazon.data.ts
+Pages
 
-tests/
-  amazon.spec.ts
+- amazon-home.page.ts
+- search-results.page.ts
+- product.page.ts
+- cart-page.page.ts
+
+Fixtures
+
+- amazon.fixture.ts
+
+Test Data
+
+- amazon.data.ts
+
+Tests
+
+- amazon.spec.ts
+
+## Fixture Design
+
+`AmazonHomePage` and `SearchResultsPage` are provided through Playwright fixtures since they both use the test's built-in `page` fixture and are used throughout the main test flow.
+
+`ProductPage` and `CartPage` are created directly in the test because they use the product tab that is opened during the test. This keeps the fixtures simple while allowing the test to control the flow of the scenario.
 
 ## Setup
+
 npm install
+
 npx playwright install
 
-## Running tests
+## Running Tests
+
 npx playwright test
 
 ## Test Reporting
+
 npx playwright show-report
 
 ## CI
-GitHub Actions runs the Playwright test suite on pushes/PRs.
+
+GitHub Actions runs the Playwright test suite on pushes and pull requests.
 
 ## Notes
-The automation interacts with Amazon's live website, so search results and filter availability may vary depending on the session/environment.
+
+The automation interacts with Amazon's live website, so search results and filter availability may vary depending on the session and environment.
