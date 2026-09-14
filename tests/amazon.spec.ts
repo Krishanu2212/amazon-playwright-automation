@@ -1,30 +1,24 @@
-import { test } from '@playwright/test';
-import { ProductPage } from '../pages/product.page';
-import { SearchResultsPage } from '../pages/search-results.page';
-import { AmazonHomePage } from '../pages/amazon-home.page';
+import { test } from '../fixtures/amazon.fixture';
 import { CartPage } from '../pages/cart-page.page';
+import { ProductPage } from '../pages/product.page';
 import { searchData } from '../test-data/amazon.data';
 
-test('search TV, filter Samsung and inspect first product', async ({ page }) => {
-  const amazonHomePage = new AmazonHomePage(page);
-
+test("search product, apply brand filter, open first product, add and verify product in the cart", async ({amazonHomePage, searchResultsPage}) => {
   await amazonHomePage.searchProduct(searchData.searchTerm);
-
-  const searchResultsPage = new SearchResultsPage(page);
 
   await searchResultsPage.applyBrandFilter(searchData.brand);
 
-  const {productPage, productDataAsin} = await searchResultsPage.openFirstProduct();
+  const {productPage: productPageTab, productDataAsin} = await searchResultsPage.openFirstProduct();
 
-  const productPageObject = new ProductPage(productPage);
+  const productPage = new ProductPage(productPageTab);
 
-  const specifications = await productPageObject.getSpecifications();
+  const specifications = await productPage.getSpecifications();
 
   for (const specification of specifications) {
     console.log(`${specification.name}: ${specification.value}`);
   }
 
-  const cartPage = new CartPage(productPage);
+  const cartPage = new CartPage(productPageTab);
 
   await cartPage.addToCart();
 
@@ -33,4 +27,4 @@ test('search TV, filter Samsung and inspect first product', async ({ page }) => 
   }
   
   await cartPage.verifyProductInCart(productDataAsin);
-});
+})
